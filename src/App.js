@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Dashboard, Profile, Register, Login, ResetPassword } from './pages';
+import { useSelector } from 'react-redux';
+function Layout(){
+  const {user} = useSelector(state=>state.user);
+  console.log(user);
+  const location = useLocation();
+  return user?.token?(
+    <Outlet/>
+  ):(
+    <Navigate to="/login" state={{from:location}} replace/>
+  )
+}
 
 function App() {
+  const {theme} = useSelector(state=>state.theme)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div data-theme={theme} className="w-full min-h-[100vh]">
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/profile/:id?" element={<Profile />} />
+        </Route>
+
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+      </Routes>
     </div>
   );
 }
