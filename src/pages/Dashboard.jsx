@@ -40,14 +40,16 @@ function Dashboard() {
                 className="w-14 h-14 rounded-full object-cover"
               />
               <input
-                type="text"
-                className="w-full rounded-full py-5"
                 placeholder="What's on your mind..."
                 name="description"
                 register={register("description", {
                   required: "Write somthing about post",
                 })}
                 error={errors.description ? errors.description.message : ""}
+                type="text"
+                id="simple-search"
+                className=" w-full py-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
               />
             </div>
             {errMsg?.message && (
@@ -107,20 +109,34 @@ function Dashboard() {
                 <span>Gif</span>
               </label>
               <div>
-                {posting ? ( <span>loading...</span>):(
-                  <button type='submit' className='bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm'>Post</button>
+                {posting ? (
+                  <span>loading...</span>
+                ) : (
+                  <button
+                    type="submit"
+                    className="bg-[#0444a4] text-white py-1 px-6 rounded-full font-semibold text-sm"
+                  >
+                    Post
+                  </button>
                 )}
               </div>
             </div>
           </form>
-          {posts?.length>0?(
-              posts?.map((post)=>(
-                <PostsCard key={post._id} post={post} user={user} deletePost={()=>{}} likePost={()=>{}}/>
-              ))
-          ):(
-             <div className="flex w-full h-full items-center justify-center">
+
+          {posts?.length > 0 ? (
+            posts?.map((post) => (
+              <PostsCard
+                key={post._id}
+                post={post}
+                user={user}
+                deletePost={() => {}}
+                likePost={() => {}}
+              />
+            ))
+          ) : (
+            <div className="flex w-full h-full items-center justify-center">
               <p className="text-lg text-ascent-2">No Post Available</p>
-             </div>
+            </div>
           )}
         </div>
 
